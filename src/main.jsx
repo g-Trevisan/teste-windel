@@ -6,8 +6,7 @@ import './styles/Global.css'
 import {createBrowserRouter, RouterProvider, Route} from 'react-router-dom';
 
 //páginas
-import { Home } from './routes/Home.jsx';
-import { NewRecipe } from './routes/NewRecipe.jsx';
+import { Home, NewRecipe, ListRecipes } from './routes';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/newrecipe",
         element: <NewRecipe/>
+      },
+      {
+        path: "/listrecipe",
+        element: <ListRecipes/>
       },
     ]
   },
