@@ -1,0 +1,23 @@
+:root{
+    /* definindo cores padrão do projeto no arquivo global css */
+    --text-primary: #7D5A50;
+    --text-secundary: #7D5A50;
+    --button: #D2691E;
+    --background: #F5EDE1 ;
+}
+
+*{
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+}
