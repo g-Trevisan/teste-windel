@@ -1,10 +1,10 @@
 :root{
     /* definindo cores padrão do projeto no arquivo global css */
-    --text-primary: #7D5A50;
+    /* --text-primary: #fff;
     --text-secundary: #7D5A50;
     --button: #D2691E;
     --background: #F5EDE1 ;
-    --header: #105BAB;
+    --header: #105BAB; */
 }
 
 *{
@@ -12,6 +12,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
 }
 
 body{
