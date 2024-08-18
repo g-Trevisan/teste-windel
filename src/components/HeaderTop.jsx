@@ -6,15 +6,15 @@ import logowindel from '../assets/logowindel.png'
 export function HeaderTop() {
     return (
       <AppBar sx={{backgroundColor: '#105BAB'}} position="fixed">
-        <Toolbar>
-          <img src={logowindel} alt="Logo" style={{ width: '50px', marginRight: '16px' }} />
-          <Typography variant="h5" sx={{ flexGrow: 1 }}>
+        <Toolbar sx = {{ justifyContent: "center"}}>
+          <img src={logowindel} alt="Logo" style={{ width: '90px', marginRight: '16px', flexGrow: {xs: "1"} }} />
+          <Typography variant="h5" sx={{ flexGrow: 1, display: {  xs: 'none', sm: 'none', md: 'block' }  }}>
             Windel Recipes
           </Typography>
-          <Box className="Box" sx={{ gap: 3, display: 'flex' }}>
+          <Box className="Box" sx={{ gap: 3, display: "flex", alignItems:"center"}}>
             <Button variant='contained' component={Link} to="/">Home</Button>
-            <Button variant='contained' component={Link} to="/newrecipe">New Recipe</Button>
-            <Button variant='contained' component={Link} to="/listrecipe">List Recipes</Button>
+            <Button variant='contained' component={Link} to="/newrecipe">Cadastrar Receita</Button>
+            <Button variant='contained' component={Link} to="/listrecipe">Consultar Receitas</Button>
           </Box>
         </Toolbar>
       </AppBar>
