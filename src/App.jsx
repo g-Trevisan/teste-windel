@@ -4,7 +4,12 @@ import { Box } from '@mui/material';
 
 export function App() {
   return (
-    <div style={{ display: 'flex', height:"100vh", maxHeight:"100%", justifyContent:"center"}}>
+    <div style={{
+      // display: 'flex',
+      height:"100vh",
+      maxHeight:"100%",
+      // justifyContent:"center"
+    }}>
       <HeaderTop />
       <Box sx={{
          mt: "5rem" 

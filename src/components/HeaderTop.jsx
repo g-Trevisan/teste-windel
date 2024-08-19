@@ -13,8 +13,8 @@ export function HeaderTop() {
           </Typography>
           <Box className="Box" sx={{ gap: 3, display: "flex", alignItems:"center"}}>
             <Button variant='contained' component={Link} to="/">Home</Button>
-            <Button variant='contained' component={Link} to="/newrecipe">Cadastrar Receita</Button>
-            <Button variant='contained' component={Link} to="/listrecipe">Consultar Receitas</Button>
+            <Button variant='contained' component={Link} to="/newrecipe">Cadastros</Button>
+            <Button variant='contained' component={Link} to="/listrecipe">Consultas</Button>
           </Box>
         </Toolbar>
       </AppBar>

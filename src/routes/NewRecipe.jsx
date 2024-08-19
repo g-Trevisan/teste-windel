@@ -1,9 +1,9 @@
-import React from 'react'
+import { FormRecipe } from "../components";
 
 export const NewRecipe = () => {
   return (
     <div>
-      NewRecipe
+      <FormRecipe></FormRecipe>
     </div>
   )
 }

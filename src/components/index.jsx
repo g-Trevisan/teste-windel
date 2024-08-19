@@ -3,3 +3,4 @@ export { EditGenericIcon } from "./EditGenericIcon";
 export { HeaderTop } from "./HeaderTop";
 export { Loader } from "./Loader";
 export { RecipeCard } from "./RecipeCard";
+export { FormRecipe } from "./FormRecipe";
