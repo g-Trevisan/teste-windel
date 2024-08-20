@@ -104,14 +104,22 @@ export function FormRecipe() {
                 variant="outlined"
                 fullWidth
               />
-              <TextField
-                label="Quantidade"
-                name="quantity"
-                value={ingredient.quantity}
-                onChange={(e) => handleIngredientChange(index, e)}
-                variant="outlined"
-                fullWidth
-              />
+        <TextField
+          label="Quantidade"
+          name="quantity"
+          value={ingredient.quantity}
+          type="number"
+          inputProps={{ min: 0 }}
+          onChange={(e) => {
+            const value = parseFloat(e.target.value);
+            if (value >= 0) {
+              handleIngredientChange(index, e);
+            }
+          }}
+          variant="outlined"
+          fullWidth
+        />
+
             </Box>
           ))}
           <Button
