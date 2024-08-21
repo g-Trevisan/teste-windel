@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Box,Card,CardContent,Typography,Divider,List,ListItem,ListItemText,Chip,IconButton,Modal,Button,} from "@mui/material";
+import {Box,Card,CardContent,Typography,Divider,List,ListItem,ListItemText,Chip,IconButton,Modal,Button,Checkbox} from "@mui/material";
 import { EditGenericIcon, DeleteGenericIcon } from "../components/index";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -35,15 +35,16 @@ export const RecipeCard = ({
   
 
   return (
-    <Box sx={{height:"22rem",}}>
-      <Card key={recipeId} sx={{height: "20rem", maxWidth:"40rem",margin: "auto" }}>
+    <Box sx={{}}>
+      <Card key={recipeId} sx={{height: "20rem", maxWidth:"34rem", margin: "auto" }}>
         <CardContent>
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              position: "relative",
+              alignContent:"center",
+              // justifyContent: "center",
+              // position: "relative",
             }}
           >
             <Typography
@@ -54,9 +55,10 @@ export const RecipeCard = ({
             >
               {name}
             </Typography>
-            <IconButton sx={{ position: "absolute", right: 0, top: -3 }}>
-              <MoreVertIcon sx={{ height: "1.25rem" }} />
-            </IconButton>
+            {/* <IconButton disableRipple sx={{ position: "absolute", right: 0, top: -3 }}> */}
+              {/* <MoreVertIcon sx={{ height: "1.25rem" }} /> */}
+              <Checkbox sx={{marginBottom:1}}/>
+            {/* </IconButton> */}
           </Box>
           <Divider sx={{ marginY: 1 }} />
           <Typography
