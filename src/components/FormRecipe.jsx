@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, Card, CardContent, Checkbox, Divider, Snackbar, TextField, Typography, Alert } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { recipeFetch } from '../axios/config';
+import { Box, Button, Card, CardContent, Checkbox, Divider, Snackbar, TextField, Typography, Alert, IconButton } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
 
 export function FormRecipe() {
   const [formData, setFormData] = useState({
@@ -32,6 +33,11 @@ export function FormRecipe() {
       ingredients: [...formData.ingredients, { name: '', quantity: 0 }],
     });
   };
+
+  const handleRemoveIngredient = (index) => {
+    const newIngredients = formData.ingredients.filter((_, i) => i !== index);
+    setFormData({ ...formData, ingredients: newIngredients});
+  }
 
   const handleCheckboxChange = (e) => {
     setFormData({ ...formData, isFavorite: e.target.checked });
@@ -67,7 +73,11 @@ export function FormRecipe() {
   };
 
   return (
-    <Card sx={{ minWidth: 350, maxWidth: 600, margin: "auto" }}>
+    <Card sx={{
+      minWidth: {xs: 300, sm: 400, md: 500, lg: 600, xl: 700,},
+      maxWidth: {xs: 350, sm: 500, md: 600,lg: 700,xl: 800,},
+      margin: "auto" 
+    }}>
       <CardContent>
         <form onSubmit={handleSendRecipe}>
           <TextField
@@ -104,21 +114,23 @@ export function FormRecipe() {
                 variant="outlined"
                 fullWidth
               />
-        <TextField
-          label="Quantidade"
-          name="quantity"
-          value={ingredient.quantity}
-          type="number"
-          inputProps={{ min: 0 }}
-          onChange={(e) => {
-            const value = parseFloat(e.target.value);
-            if (value >= 0) {
-              handleIngredientChange(index, e);
-            }
-          }}
-          variant="outlined"
-          fullWidth
-        />
+              <TextField
+                label="Quantidade"
+                name="quantity"
+                value={ingredient.quantity}
+                type="number"
+                // inputProps={{ min: 0 }}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  // if (value >= 0) {handleIngredientChange(index, e);}
+                  value >= 0 ? handleIngredientChange(index, e) : null
+                }}
+                variant="outlined"
+                fullWidth
+              />
+              <IconButton  disableRipple onClick={() => handleRemoveIngredient(index)}>
+                <ClearIcon sx={{color:"red"}}/>
+              </IconButton>
 
             </Box>
           ))}

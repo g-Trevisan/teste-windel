@@ -27,7 +27,7 @@ export const ListRecipes = () => {
     };
 
     useEffect(() => {
-        getRecipes()
+        getRecipes() //executa a comunicaçao com a api sempre que a página é recarregada
     },[])
 
     return (
@@ -39,7 +39,7 @@ export const ListRecipes = () => {
                 padding: 4 
             }}>
                 {recipes.map(recipe => (
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={recipe.id}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={recipe.id}>
                         <RecipeCard
                             recipeId={recipe.id}
                             name={recipe.name}
