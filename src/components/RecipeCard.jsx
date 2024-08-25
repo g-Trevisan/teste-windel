@@ -50,8 +50,6 @@ export const RecipeCard = ({
               display: "flex",
               alignItems: "center",
               alignContent: "center",
-              // justifyContent: "center",
-              // position: "relative",
             }}
           >
             <Typography
@@ -62,8 +60,6 @@ export const RecipeCard = ({
             >
               {name}
             </Typography>
-            {/* <IconButton disableRipple sx={{ position: "absolute", right: 0, top: -3 }}> */}
-            {/* <MoreVertIcon sx={{ height: "1.25rem" }} /> */}
             <Checkbox
               checked={isSelected}
               onChange={() => onSelectRecipe(recipeId)}

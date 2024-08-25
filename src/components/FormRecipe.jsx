@@ -33,13 +33,6 @@ export function FormRecipe() {
     setFormData({ ...formData, ingredients: newIngredients });
   };
 
-  // const handleAddIngredient = () => {
-  //   setFormData({
-  //     ...formData,
-  //     ingredients: [...formData.ingredients, { name: '', quantity: 0 }],
-  //   });
-  // };
-
   const handleAddIngredient = () => {
     const lastIngredient =
       formData.ingredients[formData.ingredients.length - 1];
@@ -55,12 +48,6 @@ export function FormRecipe() {
         message: "Revise as informações do último ingrediente adicionado",
         severity: "error"
       })
-      // Exibe uma mensagem de erro ou realiza outra ação, como um snackbar
-      // setSnackbar({
-      //   open: true,
-      //   message: 'Verifique o nome / quantidade do último ingrediente adicionado.',
-      //   severity: 'error',
-      // });
     }
   };
 

@@ -5,6 +5,7 @@ import {
   RecipeCard,
   Loading,
   ModalConfirmDelete,
+  SnackbarAlert,
 } from "../components/index";
 import { recipeFetch } from "../axios/config";
 import { NoRecipeMessage } from "../components/NoRecipeMessage";
@@ -59,15 +60,35 @@ export const ListRecipes = () => {
   };
 
   const handleOpenModal = (name, isMultiple) => {
-    setSelectedName(name);
-    setIsMultiple(true);
-    setOpenModal(true);
+    if (selectedRecipes.length > 0) {
+      setSelectedName(name);
+      setIsMultiple(true);
+      setOpenModal(true);
+      console.log(selectedRecipes.length);
+    } else {
+      // exibir snackbar de erro caso nao tenha nenhuma receita selecionada
+      setSnackbar({
+        open: true,
+        message: "Nenhuma receita selecionada...",
+        severity: "error",
+      });
+    }
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
     setIsMultiple(false);
     setSelectedName("");
+  };
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   useEffect(() => {
@@ -86,7 +107,7 @@ export const ListRecipes = () => {
               Selecionar Todos
             </Button>
             <Button
-              sx={{mr:1}}
+              sx={{ mr: 1 }}
               onClick={handleOpenModal}
               variant="contained"
               endIcon={<DeleteGenericIcon />}
@@ -133,6 +154,13 @@ export const ListRecipes = () => {
         handleDelete={handleDeleteSelected}
         name={selectedName}
         multipleDelete={isMultiple}
+      />
+      <SnackbarAlert
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        severity={snackbar.severity}
+        message={snackbar.message}
       />
     </Box>
   );
