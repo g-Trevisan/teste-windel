@@ -127,6 +127,7 @@ export function FormRecipe() {
             value={formData.name}
             onChange={handleChange}
             variant="outlined"
+            required
             sx={{ marginBottom: 2 }}
           />
           <TextField
@@ -138,6 +139,7 @@ export function FormRecipe() {
             variant="outlined"
             multiline
             rows={4}
+            required
             sx={{ marginBottom: 2 }}
           />
           <Divider sx={{ marginY: 2 }} />
@@ -152,6 +154,7 @@ export function FormRecipe() {
                 value={ingredient.name}
                 onChange={(e) => handleIngredientChange(index, e)}
                 variant="outlined"
+                required
                 fullWidth
               />
               <TextField
@@ -191,6 +194,7 @@ export function FormRecipe() {
             value={formData.category}
             onChange={handleChange}
             variant="outlined"
+            required
             sx={{ marginBottom: 2 }}
           />
           <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
@@ -206,22 +210,6 @@ export function FormRecipe() {
           </Button>
         </form>
       </CardContent>
-
-      {/* Snackbar para alertas */}
-      {/* <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          sx={{ width: "100%" }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar> */}
       <SnackbarAlert
         open={snackbar.open}
         autoHideDuration={6000}
