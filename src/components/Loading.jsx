@@ -14,7 +14,7 @@ export const Loading = () => {
             }}
         >
             <CircularProgress size={60} sx={{ color: "#1976d2" }} />
-            <Typography variant="h6" sx={{ color: "#ffffff" }}>
+            <Typography variant="h6" sx={{ color: "#707070" }}>
                 Carregando receitas...
             </Typography>
         </Box>

@@ -6,3 +6,4 @@ export { RecipeCard } from "./RecipeCard";
 export { FormRecipe } from "./FormRecipe";
 export { NoRecipeMessage } from "./NoRecipeMessage";
 export { ModalConfirmDelete } from "./ModalConfirmDelete";
+export { SnackbarAlert } from "./SnackbarAlert";
