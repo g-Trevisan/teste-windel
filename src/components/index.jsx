@@ -7,3 +7,4 @@ export { FormRecipe } from "./FormRecipe";
 export { NoRecipeMessage } from "./NoRecipeMessage";
 export { ModalConfirmDelete } from "./ModalConfirmDelete";
 export { SnackbarAlert } from "./SnackbarAlert";
+export { IngredientCard } from "./IngredientCard";

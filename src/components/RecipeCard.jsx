@@ -1,10 +1,26 @@
 import { useState } from "react";
-import {Box,Card,CardContent,Typography,Divider,List,ListItem,ListItemText,Chip,IconButton,Modal,Button,Checkbox} from "@mui/material";
-import { EditGenericIcon, DeleteGenericIcon } from "../components/index";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Chip,
+  IconButton,
+  Modal,
+  Button,
+  Checkbox,
+} from "@mui/material";
+import {
+  EditGenericIcon,
+  DeleteGenericIcon,
+  ModalConfirmDelete,
+  FormRecipe,
+} from "../components/index";
 import { recipeFetch } from "../axios/config";
-import { ModalConfirmDelete } from "./ModalConfirmDelete";
 
 export const RecipeCard = ({
   recipeId,
@@ -16,13 +32,29 @@ export const RecipeCard = ({
   isSelected,
   onSelectRecipe,
   refreshRecipes,
-  handleOpenModal
+  handleOpenModal,
 }) => {
-  const [open, setOpen] = useState(false); // estado para controlar se o modal está aberto ou fechado
+  const [open, setOpen] = useState(false); // estado para controlar se o modal de exclusao está aberto ou fechado
+  const [openFormEdit, setOpenFormEdit] = useState(false); // modal de ediçao
+  const [currentRecipeEdit, setCurrentRecipeEdit] = useState(null); //puxar dados da receita para ediçao
 
-  // alterando o estado do modal conforme a funçao de abertura ou fechamento
-  const handleOpen = () => setOpen(true); 
+  // alterando o estado do modal de exclusao conforme a funçao de abertura ou fechamento
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleEdit = () => {
+    setCurrentRecipeEdit({
+      recipeId,
+      name,
+      description,
+      isFavorite,
+      category,
+      ingredients,
+    });
+    setOpenFormEdit(true);
+  };
+
+  const handleCloseFormEdit = () => setOpenFormEdit(false);
 
   const handleDelete = async () => {
     try {
@@ -32,9 +64,7 @@ export const RecipeCard = ({
       handleClose(); // fecha o modal de confirmaçao após a exclusão
       refreshRecipes(); // faz com que a página atualize após a exclusão para puxar os itens corretos
     } catch (error) {
-      console.error(
-        "Erro ao excluir a receita:", error
-      );
+      console.error("Erro ao excluir a receita:", error);
     }
   };
 
@@ -114,7 +144,7 @@ export const RecipeCard = ({
               {isFavorite && <Chip label="Favorito" color="primary" />}
             </Box>
             <Box sx={{ display: "flex" }}>
-              <IconButton disableRipple>
+              <IconButton disableRipple onClick={handleEdit}>
                 <EditGenericIcon />
               </IconButton>
               <IconButton disableRipple onClick={handleOpen}>
@@ -131,6 +161,29 @@ export const RecipeCard = ({
         handleDelete={handleDelete}
         name={name}
       />
+
+      <Modal
+        open={openFormEdit}
+        onClose={handleCloseFormEdit}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            padding: 2,
+            maxWidth: 600,
+            margin: "auto",
+            bgcolor: "background.paper",
+            borderRadius: 1,
+          }}
+        >
+          <FormRecipe
+            recipe={currentRecipeEdit}
+            onClose={handleCloseFormEdit}
+            refreshRecipes={refreshRecipes}
+          />
+        </Box>
+      </Modal>
     </Box>
   );
 };

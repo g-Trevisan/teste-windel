@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { recipeFetch } from "../axios/config";
-import { SnackbarAlert } from "./index.jsx";
+import { IngredientCard, SnackbarAlert } from "./index.jsx";
 import {Box,Button,Card,CardContent,Checkbox,Divider,TextField,Typography,IconButton} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
 
-export function FormRecipe() {
+export function FormRecipe({ recipe, onClose, refreshRecipes }) {
   const [formData, setFormData] = useState({
+    //dados da receita
     name: "",
     description: "",
     ingredients: [{ name: "", quantity: 0 }],
@@ -15,10 +16,27 @@ export function FormRecipe() {
   });
 
   const [snackbar, setSnackbar] = useState({
+    //estado do snackbar de aviso
     open: false,
     message: "",
     severity: "success",
   });
+
+  useEffect(() => {
+    if (recipe) {
+      setFormData({
+        name: recipe.name,
+        description: recipe.description,
+        ingredients: Array.isArray(recipe.ingredients)
+          ? recipe.ingredients
+          : [],
+        // ingredients: recipe.description,
+        // ingredients: [{ name: "", quantity: 0 }],
+        category: recipe.category,
+        isFavorite: recipe.isFavorite,
+      });
+    }
+  }, [recipe]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,8 +64,8 @@ export function FormRecipe() {
       setSnackbar({
         open: true,
         message: "Revise as informações do último ingrediente adicionado",
-        severity: "error"
-      })
+        severity: "error",
+      });
     }
   };
 
@@ -63,17 +81,19 @@ export function FormRecipe() {
   const handleSendRecipe = async (e) => {
     e.preventDefault();
     try {
-      const response = await recipeFetch.post("/recipe", formData);
+      const url = recipe ? `/recipe/${recipe.recipeId}` : "/recipe"; // se a receita já existir, entao chamará o put, caso contrário, cadastrará a nova com o post
+      const method = recipe ? "patch" : "post"; // se a receita já existir, chamara o patch para editar dados
+      const response = await recipeFetch[method](url, formData);
       console.log("Dados enviados com sucesso:", response.data);
 
-      // Exibir snackbar de sucesso
+      // exibir snackbar de sucesso
       setSnackbar({
         open: true,
         message: "Receita enviada com sucesso!",
         severity: "success",
       });
 
-      // Limpar os campos
+      // limpar os campos após o envio dos dados
       setFormData({
         name: "",
         description: "",
@@ -81,10 +101,11 @@ export function FormRecipe() {
         category: "",
         isFavorite: false,
       });
+      {method == "patch" ? (onClose(), refreshRecipes()) : null} // executa somente quando for chamado o modal que é direto na tela de consulta. Na tela de cadastro, não precisamos chamar essas funçÕes, por isso somente quando o method for de alteraçao "patch"
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
 
-      // Exibir snackbar de erro
+      //exibir snackbar de erro
       setSnackbar({
         open: true,
         message: "Erro ao enviar a receita!",
@@ -107,6 +128,9 @@ export function FormRecipe() {
     >
       <CardContent>
         <form onSubmit={handleSendRecipe}>
+          <Typography variant="h6" component="div" gutterBottom>
+            {recipe ? "Editar Receita" : "Cadastrar Receita"}
+          </Typography>
           <TextField
             fullWidth
             label="Digite o nome da Receita"
@@ -130,41 +154,20 @@ export function FormRecipe() {
             sx={{ marginBottom: 2 }}
           />
           <Divider sx={{ marginY: 2 }} />
-          <Typography variant="h6" sx={{ marginBottom: 2, color: "#707070" }}>
+          <Typography variant="h6" sx={{marginBottom: 2, color: "#707070" }}>
             Ingredientes
           </Typography>
-          {formData.ingredients.map((ingredient, index) => (
-            <Box key={index} sx={{ display: "flex", gap: 2, marginBottom: 2 }}>
-              <TextField
-                label="Nome do Ingrediente"
-                name="name"
-                value={ingredient.name}
-                onChange={(e) => handleIngredientChange(index, e)}
-                variant="outlined"
-                required
-                fullWidth
-              />
-              <TextField
-                label="Quantidade"
-                name="quantity"
-                value={ingredient.quantity}
-                type="number"
-                // inputProps={{ min: 0 }}
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  value >= 0 ? handleIngredientChange(index, e) : null;
-                }}
-                variant="outlined"
-                fullWidth
-              />
-              <IconButton
-                disableRipple
-                onClick={() => handleRemoveIngredient(index)}
-              >
-                <ClearIcon sx={{ color: "red" }} />
-              </IconButton>
-            </Box>
-          ))}
+          <Box sx={{maxHeight:"20vh", overflowY:"auto"}}>
+            {formData.ingredients.map((ingredient, index) => (
+              <IngredientCard
+                key={index}
+                ingredient={ingredient}
+                index={index}
+                onIngredientChange={handleIngredientChange}
+                onRemoveIngredient={handleRemoveIngredient}
+                />
+            ))}
+          </Box>
           <Button
             variant="outlined"
             startIcon={<AddIcon />}
