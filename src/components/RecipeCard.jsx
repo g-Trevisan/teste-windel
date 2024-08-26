@@ -18,7 +18,7 @@ import {
   EditGenericIcon,
   DeleteGenericIcon,
   ModalConfirmDelete,
-  FormRecipe,
+  EditRecipeModal,
 } from "../components/index";
 import { recipeFetch } from "../axios/config";
 
@@ -162,28 +162,12 @@ export const RecipeCard = ({
         name={name}
       />
 
-      <Modal
+      <EditRecipeModal
         open={openFormEdit}
         onClose={handleCloseFormEdit}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <Box
-          sx={{
-            padding: 2,
-            maxWidth: 600,
-            margin: "auto",
-            bgcolor: "background.paper",
-            borderRadius: 1,
-          }}
-        >
-          <FormRecipe
-            recipe={currentRecipeEdit}
-            onClose={handleCloseFormEdit}
-            refreshRecipes={refreshRecipes}
-          />
-        </Box>
-      </Modal>
+        recipe={currentRecipeEdit}
+        refreshRecipes={refreshRecipes}
+      />
     </Box>
   );
 };

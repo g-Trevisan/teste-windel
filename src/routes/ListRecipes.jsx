@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography, Box, Button } from "@mui/material";
 import {
-  DeleteGenericIcon,
+  Grid,
+  Typography,
+  Box
+} from "@mui/material";
+import {
   RecipeCard,
   Loading,
   ModalConfirmDelete,
+  DeleteGenericIcon, 
   SnackbarAlert,
+  MenuFilterRecipe
 } from "../components/index";
 import { recipeFetch } from "../axios/config";
 import { NoRecipeMessage } from "../components/NoRecipeMessage";
@@ -13,10 +18,12 @@ import { NoRecipeMessage } from "../components/NoRecipeMessage";
 export const ListRecipes = () => {
   const [recipes, setRecipes] = useState([]); //definindo e atualizando receitas
   const [selectedRecipes, setSelectedRecipes] = useState([]); //receitas selecionadas pela checkbox para posterior exclusao
-  const [loading, setLoading] = useState(true); //
+  const [loading, setLoading] = useState(true); // estado de carregamento da página
   const [openModal, setOpenModal] = useState(false); // estado para controlar o modal
   const [isMultiple, setIsMultiple] = useState(false); // estado para controlar se é exclusao multipla
   const [selectedName, setSelectedName] = useState(""); // nome da receita para exclusao unica
+  const [filteredRecipes, setFilteredRecipes] = useState([]); // dados filtrados
+  const [searchTerm, setSearchTerm] = useState(""); // termo de busca
 
   const getRecipes = async () => {
     try {
@@ -39,10 +46,10 @@ export const ListRecipes = () => {
   };
 
   const handleSelectAll = () => {
-    if (selectedRecipes.length === recipes.length) {
+    if (selectedRecipes.length === filteredRecipes.length) {
       setSelectedRecipes([]); //se todas estao marcadas, entao serao desmarcadas ao clciar no botao
     } else {
-      setSelectedRecipes(recipes.map((recipe) => recipe.id)); //faz o map buscando o id, e preenche o array de receitas selecionadas
+      setSelectedRecipes(filteredRecipes.map((recipe) => recipe.id)); //faz o map buscando o id, e preenche o array de receitas selecionadas (alterado de recipes.map para filteredRecipes.map)
     }
   };
 
@@ -91,6 +98,52 @@ export const ListRecipes = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  /////////// ------------------------------------------------- filtragem
+
+  const [filters, setFilters] = useState({
+    name: "",
+    category: "",
+    isFavorite: false,
+  });
+
+  const handleSearch = async () => {
+    try {
+      const response = await recipeFetch.get("/recipes", {
+        params: filters,
+      });
+      setRecipes(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar receitas:", error);
+    }
+  };
+
+  useEffect(() => {
+    const applyFilters = () => {
+      let filtered = recipes;
+  
+      if (filters.name) { // filtrando pelo nome
+        filtered = filtered.filter(recipe =>
+          recipe.name.toLowerCase().includes(filters.name.toLowerCase()) //garante que todo o texto digitado fique em caixa baixa (sem caps)
+        );
+      }
+  
+      if (filters.category) { // filtrando pela categoria
+        filtered = filtered.filter(recipe =>
+          recipe.category === filters.category
+        );
+      }
+  
+      if (filters.isFavorite) { // filtrando pelos favoritos
+        filtered = filtered.filter(recipe => recipe.isFavorite);
+      }
+  
+      setFilteredRecipes(filtered);
+    };
+  
+    applyFilters();
+  }, [filters, recipes]); // executa o filtro sempre que os filtros ou receitas mudarem
+  /////////// ------------------------------------------------- filtragem
+
   useEffect(() => {
     getRecipes();
   }, []);
@@ -102,21 +155,17 @@ export const ListRecipes = () => {
         <Loading />
       ) : recipes.length > 0 ? (
         <>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-            <Button onClick={handleSelectAll} variant="contained">
-              Selecionar Todos
-            </Button>
-            <Button
-              sx={{ mr: 1 }}
-              onClick={handleOpenModal}
-              variant="contained"
-              endIcon={<DeleteGenericIcon />}
-            >
-              Deletar
-            </Button>
-          </Box>
+          <MenuFilterRecipe
+            filters={filters}
+            setFilters={setFilters}
+            recipes={recipes}
+            handleSelectAll={handleSelectAll}
+            handleOpenModal={handleOpenModal}
+            DeleteGenericIcon={DeleteGenericIcon}
+          />
+         
           <Grid container spacing={4} sx={{ px: 3, py: 2, paddingBottom: 10 }}>
-            {recipes.map((recipe) => (
+            {filteredRecipes.map((recipe) => ( //antes era chamado recipes.map, após adicionar filtro ficou assim
               <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={recipe.id}>
                 <RecipeCard
                   recipeId={recipe.id}

@@ -124,6 +124,7 @@ export function FormRecipe({ recipe, onClose, refreshRecipes }) {
         minWidth: { xs: 300, sm: 400, md: 500, lg: 600, xl: 700 },
         maxWidth: { xs: 350, sm: 500, md: 600, lg: 700, xl: 800 },
         margin: "auto",
+        // background:"black",
       }}
     >
       <CardContent>

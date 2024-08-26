@@ -1,11 +1,9 @@
 import React from 'react'
 
-const RecipeTable = () => {
+export const RecipeTable = () => {
   return (
     <div>
       
     </div>
   )
 }
-
-export default RecipeTable
