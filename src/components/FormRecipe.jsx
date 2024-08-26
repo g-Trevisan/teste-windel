@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { recipeFetch } from "../axios/config";
 import { IngredientCard, SnackbarAlert } from "./index.jsx";
-import {Box,Button,Card,CardContent,Checkbox,Divider,TextField,Typography,IconButton} from "@mui/material";
+import { Box, Button, Card, CardContent, Checkbox, Divider, TextField, Typography, IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -101,7 +101,7 @@ export function FormRecipe({ recipe, onClose, refreshRecipes }) {
         category: "",
         isFavorite: false,
       });
-      {method == "patch" ? (onClose(), refreshRecipes()) : null} // executa somente quando for chamado o modal que é direto na tela de consulta. Na tela de cadastro, não precisamos chamar essas funçÕes, por isso somente quando o method for de alteraçao "patch"
+      { method == "patch" ? (onClose(), refreshRecipes()) : null } // executa somente quando for chamado o modal que é direto na tela de consulta. Na tela de cadastro, não precisamos chamar essas funçÕes, por isso somente quando o method for de alteraçao "patch"
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
 
@@ -124,6 +124,7 @@ export function FormRecipe({ recipe, onClose, refreshRecipes }) {
         minWidth: { xs: 300, sm: 400, md: 500, lg: 600, xl: 700 },
         maxWidth: { xs: 350, sm: 500, md: 600, lg: 700, xl: 800 },
         margin: "auto",
+        boxShadow: 20
         // background:"black",
       }}
     >
@@ -155,10 +156,10 @@ export function FormRecipe({ recipe, onClose, refreshRecipes }) {
             sx={{ marginBottom: 2 }}
           />
           <Divider sx={{ marginY: 2 }} />
-          <Typography variant="h6" sx={{marginBottom: 2, color: "#707070" }}>
+          <Typography variant="h6" sx={{ marginBottom: 2, color: "#707070" }}>
             Ingredientes
           </Typography>
-          <Box sx={{maxHeight:"20vh", overflowY:"auto"}}>
+          <Box sx={{ maxHeight: "20vh", overflowY: "auto" }}>
             {formData.ingredients.map((ingredient, index) => (
               <IngredientCard
                 key={index}
@@ -166,7 +167,7 @@ export function FormRecipe({ recipe, onClose, refreshRecipes }) {
                 index={index}
                 onIngredientChange={handleIngredientChange}
                 onRemoveIngredient={handleRemoveIngredient}
-                />
+              />
             ))}
           </Box>
           <Button

@@ -159,6 +159,8 @@ export const ListRecipes = () => {
             filters={filters}
             setFilters={setFilters}
             recipes={recipes}
+            selectedRecipes={selectedRecipes}
+            filteredRecipes={filteredRecipes}
             handleSelectAll={handleSelectAll}
             handleOpenModal={handleOpenModal}
             DeleteGenericIcon={DeleteGenericIcon}

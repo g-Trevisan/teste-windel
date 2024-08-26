@@ -14,6 +14,8 @@ export const MenuFilterRecipe = ({
   handleSelectAll,
   handleOpenModal,
   DeleteGenericIcon,
+  selectedRecipes,
+  filteredRecipes
 }) => {
   return (
     <Box
@@ -23,7 +25,10 @@ export const MenuFilterRecipe = ({
         alignItems: "center",
         gap: 2,
         maxHeight: "4rem",
-        px: "1rem",
+        mx: "3.2rem",
+        //borderRadius:"6px",
+        //background: "background.paper",
+        //boxShadow:"6"        
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, flex: 1 }}>
@@ -39,6 +44,8 @@ export const MenuFilterRecipe = ({
             maxWidth: "14rem",
             "& .MuiOutlinedInput-root": {
               backgroundColor: "background.paper", // Aplica o fundo no componente interno
+              boxShadow:"4"
+              
             },
           }}
         />
@@ -54,7 +61,8 @@ export const MenuFilterRecipe = ({
             minWidth: "6rem",
             maxWidth: "14rem",
             "& .MuiOutlinedInput-root": {
-              backgroundColor: "background.paper", // Aplica o fundo no componente interno
+              backgroundColor: "background.paper", // aplica o fundo no componente interno
+              boxShadow:"4",
             },
           }}
         >
@@ -76,7 +84,7 @@ export const MenuFilterRecipe = ({
             />
           }
           label="Favorito"
-          sx={{ flex: 0.5, minWidth: "6rem", color:"black" }}
+          sx={{ flex: 0.5, minWidth: "6rem", color: "black" }}
         />
       </Box>
 
@@ -89,9 +97,10 @@ export const MenuFilterRecipe = ({
         }}
       >
         <Button onClick={handleSelectAll} variant="contained">
-          Selecionar Todos
+          {selectedRecipes.length === filteredRecipes.length ? "Desmarcar todos" : "Selecionar Todos" }
         </Button>
         <Button
+          display={"hidden"}
           onClick={handleOpenModal}
           variant="contained"
           endIcon={<DeleteGenericIcon />}
