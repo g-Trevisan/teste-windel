@@ -115,12 +115,39 @@ export function FormRecipe({ recipe, onClose, refreshRecipes }) {
         method == "patch" ? (onClose(), refreshRecipes()) : null;
       } // executa somente quando for chamado o modal que é direto na tela de consulta. Na tela de cadastro, não precisamos chamar essas funçÕes, por isso somente quando o method for de alteraçao "patch"
     } catch (error) {
-      console.error("Erro ao enviar os dados:", error);
-
-      //exibir snackbar de erro
+      let errorMessage = "Erro ao enviar a receita!";
+      if (error.response) {
+        // tratamento de erros http
+        switch (error.response.status) {
+          case 400:
+            errorMessage = "Requisição inválida. Verifique os dados fornecidos.";
+            break;
+          case 401:
+            errorMessage = "Não autorizado. Verifique suas credenciais.";
+            break;
+          case 403:
+            errorMessage = "Acesso proibido. Você não tem permissão.";
+            break;
+          case 404:
+            errorMessage = "Receita não encontrada.";
+            break;
+          case 409:
+            errorMessage = "Conflito: a receita já existe.";
+            break;
+          case 500:
+            errorMessage = "Erro interno do servidor.";
+            break;
+          case 503:
+            errorMessage = "Serviço temporariamente indisponível.";
+            break;
+          default:
+            errorMessage = "Erro desconhecido.";
+            break;
+        }
+      }
       setSnackbar({
         open: true,
-        message: "Erro ao enviar a receita!",
+        message: errorMessage,
         severity: "error",
       });
     }

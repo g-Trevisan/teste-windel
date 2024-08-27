@@ -30,8 +30,39 @@ export const ListRecipes = () => {
       const response = await recipeFetch.get("/recipe");
       const data = response.data;
       setRecipes(data);
+      // tratamento de erros http
     } catch (error) {
-      console.log(error);
+      let errorMessage = "Erro ao obter receitas. Tente novamente mais tarde.";
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            errorMessage = "Requisição inválida. Verifique os dados.";
+            break;
+          case 401:
+            errorMessage = "Não autorizado. Verifique suas credenciais.";
+            break;
+          case 403:
+            errorMessage = "Acesso proibido. Você não tem permissão.";
+            break;
+          case 404:
+            errorMessage = "Receita não encontrada.";
+            break;
+          case 500:
+            errorMessage = "Erro interno do servidor.";
+            break;
+          case 503:
+            errorMessage = "Serviço temporariamente indisponível.";
+            break;
+          default:
+            errorMessage = "Erro desconhecido.";
+            break;
+        }
+      }
+      setSnackbar({
+        open: true,
+        message: errorMessage,
+        severity: "error",
+      });
     } finally {
       setLoading(false);
     }
