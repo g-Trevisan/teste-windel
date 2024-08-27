@@ -1,7 +1,9 @@
+import { WindelRecipePresentation } from "../components/index"
+
 export const Home = () => {
     return (
       <div>
-          Home - Definir conteúdo
+          <WindelRecipePresentation/>
       </div>
     )
   }

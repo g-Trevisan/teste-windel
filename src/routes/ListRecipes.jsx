@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
-import {
-  Grid,
-  Typography,
-  Box
-} from "@mui/material";
+import { Grid, Typography, Box, Pagination } from "@mui/material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import {
   RecipeCard,
   Loading,
   ModalConfirmDelete,
-  DeleteGenericIcon, 
+  DeleteGenericIcon,
   SnackbarAlert,
-  MenuFilterRecipe
+  MenuFilterRecipe,
 } from "../components/index";
 import { recipeFetch } from "../axios/config";
 import { NoRecipeMessage } from "../components/NoRecipeMessage";
@@ -24,6 +21,9 @@ export const ListRecipes = () => {
   const [selectedName, setSelectedName] = useState(""); // nome da receita para exclusao unica
   const [filteredRecipes, setFilteredRecipes] = useState([]); // dados filtrados
   const [searchTerm, setSearchTerm] = useState(""); // termo de busca
+
+  const [page, setPage] = useState(1); //pagina inicial
+  const [recipesPerPage] = useState(6); //qtdade itens por pagina
 
   const getRecipes = async () => {
     try {
@@ -120,29 +120,45 @@ export const ListRecipes = () => {
   useEffect(() => {
     const applyFilters = () => {
       let filtered = recipes;
-  
-      if (filters.name) { // filtrando pelo nome
-        filtered = filtered.filter(recipe =>
-          recipe.name.toLowerCase().includes(filters.name.toLowerCase()) //garante que todo o texto digitado fique em caixa baixa (sem caps)
+
+      if (filters.name) {
+        // filtrando pelo nome
+        filtered = filtered.filter(
+          (recipe) =>
+            recipe.name.toLowerCase().includes(filters.name.toLowerCase()) //garante que todo o texto digitado fique em caixa baixa (sem caps)
         );
       }
-  
-      if (filters.category) { // filtrando pela categoria
-        filtered = filtered.filter(recipe =>
-          recipe.category === filters.category
+
+      if (filters.category) {
+        // filtrando pela categoria
+        filtered = filtered.filter(
+          (recipe) => recipe.category === filters.category
         );
       }
-  
-      if (filters.isFavorite) { // filtrando pelos favoritos
-        filtered = filtered.filter(recipe => recipe.isFavorite);
+
+      if (filters.isFavorite) {
+        // filtrando pelos favoritos
+        filtered = filtered.filter((recipe) => recipe.isFavorite);
       }
-  
+
       setFilteredRecipes(filtered);
     };
-  
+
     applyFilters();
   }, [filters, recipes]); // executa o filtro sempre que os filtros ou receitas mudarem
   /////////// ------------------------------------------------- filtragem
+
+  /////////// ------------------------------------------------- paginaçao
+  const handlePageChange = (event, value) => {
+    //mudança de pagina
+    setPage(value);
+  };
+
+  const paginatedRecipes = filteredRecipes.slice(
+    (page - 1) * recipesPerPage,
+    page * recipesPerPage
+  );
+  /////////// ------------------------------------------------- paginaçao
 
   useEffect(() => {
     getRecipes();
@@ -165,25 +181,29 @@ export const ListRecipes = () => {
             handleOpenModal={handleOpenModal}
             DeleteGenericIcon={DeleteGenericIcon}
           />
-         
+
           <Grid container spacing={4} sx={{ px: 3, py: 2, paddingBottom: 10 }}>
-            {filteredRecipes.map((recipe) => ( //antes era chamado recipes.map, após adicionar filtro ficou assim
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={recipe.id}>
-                <RecipeCard
-                  recipeId={recipe.id}
-                  name={recipe.name}
-                  description={recipe.description}
-                  category={recipe.category}
-                  isFavorite={recipe.isFavorite}
-                  ingredients={recipe.ingredients}
-                  refreshRecipes={getRecipes}
-                  onSelectRecipe={handleSelectRecipe}
-                  selectedRecipes={selectedRecipes}
-                  isSelected={selectedRecipes.includes(recipe.id)}
-                  handleOpenModal={handleOpenModal}
-                />
-              </Grid>
-            ))}
+            {paginatedRecipes.map(
+              (
+                recipe //antes era chamado recipes.map, após filtro filteredRecipes.map, após paginaçao paginatedRecipes.map
+              ) => (
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={recipe.id}>
+                  <RecipeCard
+                    recipeId={recipe.id}
+                    name={recipe.name}
+                    description={recipe.description}
+                    category={recipe.category}
+                    isFavorite={recipe.isFavorite}
+                    ingredients={recipe.ingredients}
+                    refreshRecipes={getRecipes}
+                    onSelectRecipe={handleSelectRecipe}
+                    selectedRecipes={selectedRecipes}
+                    isSelected={selectedRecipes.includes(recipe.id)}
+                    handleOpenModal={handleOpenModal}
+                  />
+                </Grid>
+              )
+            )}
           </Grid>
           <Box
             sx={{
@@ -193,7 +213,15 @@ export const ListRecipes = () => {
               justifyContent: "center",
             }}
           >
-            <Typography sx={{ color: "white" }}>Paginação será aqui</Typography>
+            <Pagination
+              count={Math.ceil(filteredRecipes.length / recipesPerPage)}
+              page={page}
+              onChange={handlePageChange}
+              color="primary"
+              size="large"
+              variant="outlined"
+              shape="rounded"
+            />
           </Box>
         </>
       ) : (

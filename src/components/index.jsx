@@ -10,3 +10,4 @@ export { SnackbarAlert } from "./SnackbarAlert";
 export { IngredientCard } from "./IngredientCard";
 export { EditRecipeModal } from "./EditRecipeModal";
 export { MenuFilterRecipe } from "./MenuFilterRecipe";
+export { WindelRecipePresentation } from "./WindelRecipePresentation";

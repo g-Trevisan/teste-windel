@@ -106,8 +106,12 @@ export const RecipeCard = ({
           </Typography>
           <Divider sx={{ marginY: 1 }} />
           <Box>
-            <Typography variant="h6" sx={{}}>
-              Ingredientes
+            <Typography variant="h6">
+              {ingredients.length === 0
+                ? "Sem ingredientes"
+                : ingredients.length === 1
+                ? "1 Ingrediente"
+                : `${ingredients.length} Ingredientes`}
             </Typography>
             <Box
               sx={{
@@ -123,8 +127,9 @@ export const RecipeCard = ({
                 {ingredients.map((ingredient) => (
                   <ListItem key={ingredient.id} sx={{ mb: "-1.25rem" }}>
                     <ListItemText
-                      primary={`Descrição - ${ingredient.name}`}
-                      secondary={`Quantidade - ${ingredient.quantity}`}
+                      primary={`${ingredient.name} - ${ingredient.quantity} `}
+                      // primary={`Descrição - ${ingredient.name}`}
+                      // secondary={`Quantidade - ${ingredient.quantity}`}
                     />
                   </ListItem>
                 ))}

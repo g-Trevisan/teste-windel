@@ -5,7 +5,10 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  IconButton,
 } from "@mui/material";
+
+import { Star, StarBorder } from "@mui/icons-material";
 
 export const MenuFilterRecipe = ({
   filters,
@@ -15,7 +18,7 @@ export const MenuFilterRecipe = ({
   handleOpenModal,
   DeleteGenericIcon,
   selectedRecipes,
-  filteredRecipes
+  filteredRecipes,
 }) => {
   return (
     <Box
@@ -28,7 +31,7 @@ export const MenuFilterRecipe = ({
         mx: "3.2rem",
         //borderRadius:"6px",
         //background: "background.paper",
-        //boxShadow:"6"        
+        //boxShadow:"6"
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, flex: 1 }}>
@@ -44,8 +47,7 @@ export const MenuFilterRecipe = ({
             maxWidth: "14rem",
             "& .MuiOutlinedInput-root": {
               backgroundColor: "background.paper", // Aplica o fundo no componente interno
-              boxShadow:"4"
-              
+              boxShadow: "4",
             },
           }}
         />
@@ -58,11 +60,11 @@ export const MenuFilterRecipe = ({
           size="small"
           sx={{
             flex: 1,
-            minWidth: "6rem",
+            minWidth: "7rem",
             maxWidth: "14rem",
             "& .MuiOutlinedInput-root": {
               backgroundColor: "background.paper", // aplica o fundo no componente interno
-              boxShadow:"4",
+              boxShadow: "4",
             },
           }}
         >
@@ -72,19 +74,30 @@ export const MenuFilterRecipe = ({
               {recipe.category}
             </MenuItem>
           ))}
-          <MenuItem value="Sobremesa">Sobremesa</MenuItem>
         </TextField>
         <FormControlLabel
           control={
-            <Checkbox
-              checked={filters.isFavorite}
-              onChange={(e) =>
-                setFilters({ ...filters, isFavorite: e.target.checked })
+            <IconButton
+              disableRipple
+              onClick={() =>
+                setFilters({ ...filters, isFavorite: !filters.isFavorite })
               }
-            />
+              color="primary"
+            >
+              {filters.isFavorite ? <Star /> : <StarBorder />}
+            </IconButton>
           }
           label="Favorito"
-          sx={{ flex: 0.5, minWidth: "6rem", color: "black" }}
+          sx={{
+            flex: 0.5,
+            minWidth: "6rem",
+            color: "black",
+            userSelect: "none",
+            display: {
+              xs: "none",
+              sm: "block",
+            },
+          }}
         />
       </Box>
 
@@ -97,13 +110,16 @@ export const MenuFilterRecipe = ({
         }}
       >
         <Button onClick={handleSelectAll} variant="contained">
-          {selectedRecipes.length === filteredRecipes.length ? "Desmarcar todos" : "Selecionar Todos" }
+          {selectedRecipes.length === filteredRecipes.length
+            ? "Desmarcar todos"
+            : "Selecionar Todos"}
         </Button>
         <Button
-          display={"hidden"}
           onClick={handleOpenModal}
           variant="contained"
-          endIcon={<DeleteGenericIcon />}
+          color="error"
+          disabled={selectedRecipes.length < 1}
+          // endIcon={<DeleteGenericIcon />}
         >
           Deletar
         </Button>

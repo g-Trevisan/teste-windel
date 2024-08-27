@@ -1,6 +1,12 @@
-import { Snackbar, Alert} from "@mui/material";
+import { Snackbar, Alert } from "@mui/material";
 
-export const SnackbarAlert = ({ open, autoHideDuration, onClose, severity, message }) => {
+export const SnackbarAlert = ({
+  open,
+  autoHideDuration,
+  onClose,
+  severity,
+  message,
+}) => {
   return (
     <Snackbar
       open={open}

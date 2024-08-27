@@ -6,7 +6,7 @@ export function App() {
   return (
     <div style={{
       // display: 'flex',
-      height:"100vh",
+      height:"100%",
       maxHeight:"100%",
       // justifyContent:"center"
     }}>
