@@ -4,11 +4,12 @@ export const EditGenericIcon = () => {
   return (
     <>
       <EditIcon
+        color='primary'
         sx={{
-          color: "#aaabb3",
+          // color: "#aaabb3",
           cursor: "pointer",
           "&:hover": {
-            color: "#68b366",
+            // color: "#68b366",
             transform: "scale(1.1)",
           },
         }}

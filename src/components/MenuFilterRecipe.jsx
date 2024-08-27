@@ -28,7 +28,7 @@ export const MenuFilterRecipe = ({
         alignItems: "center",
         gap: 2,
         maxHeight: "4rem",
-        mx: "3.2rem",
+        mx: {xs: "1.6rem", sm: "2rem", ms: "3.2rem",},
         //borderRadius:"6px",
         //background: "background.paper",
         //boxShadow:"6"
@@ -65,6 +65,14 @@ export const MenuFilterRecipe = ({
             "& .MuiOutlinedInput-root": {
               backgroundColor: "background.paper", // aplica o fundo no componente interno
               boxShadow: "4",
+              display: {
+                xs: "none",
+                sm: "block",
+              },
+            },
+            display: {
+              xs: "none",
+              sm: "block",
             },
           }}
         >
@@ -90,7 +98,7 @@ export const MenuFilterRecipe = ({
           label="Favorito"
           sx={{
             flex: 0.5,
-            minWidth: "6rem",
+            minWidth: "6.2rem",
             color: "black",
             userSelect: "none",
             display: {
@@ -109,7 +117,7 @@ export const MenuFilterRecipe = ({
           minWidth: "12rem",
         }}
       >
-        <Button onClick={handleSelectAll} variant="contained">
+        <Button sx={{minWidth:"10.6rem"}} onClick={handleSelectAll} variant="contained">
           {selectedRecipes.length === filteredRecipes.length
             ? "Desmarcar todos"
             : "Selecionar Todos"}
